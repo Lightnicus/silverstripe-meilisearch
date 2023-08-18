@@ -1,5 +1,5 @@
 <% include SideBar %>
-<div class="content-container unit size3of4 lastUnit">
+<div class="container py-5 mb-5">
     <article>
         <h1>$Title</h1>
         <div class="content">{$Content}</div>

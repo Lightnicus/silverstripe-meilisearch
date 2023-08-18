@@ -138,7 +138,7 @@ class SearchForm extends Form
 
         $indexes = [];
 
-        if (count($indexClasses = ClassInfo::subclassesFor(Index::class, false)) > 1) {
+        if (count($indexClasses = ClassInfo::subclassesFor(Index::class, false)) > 0) {
             $siteTreeIndex = null;
 
             foreach ($indexClasses as $indexClass) {
@@ -203,7 +203,8 @@ class SearchForm extends Form
     {
         $results = ArrayList::create();
 
-        $searchIn = ($data = $this->getData())['SearchIn'];
+        $data = $this->getData();
+        $searchIn = $data['SearchIn'] ?? null;
 
         if (empty($q = trim($data['q'] ?? ''))) {
             return $results;
