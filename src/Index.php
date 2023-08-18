@@ -213,6 +213,11 @@ abstract class Index
 
         $indexName = strtolower(str_replace('\\', '_', $sng::class));
 
+        global $database;
+        if (!empty($database)) {
+            $indexName = $database . '_' . $indexName;
+        }
+
         if (ClassInfo::exists(FluentExtension::class) && $sng->hasExtension(FluentExtension::class)) {
             $indexName .= '_' . strtolower(Locale::getCurrentLocale()->Locale);
         }
