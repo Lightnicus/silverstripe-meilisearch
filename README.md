@@ -10,8 +10,7 @@ This module adds support for connecting with meilisearch as (multi-lingual) full
 
 ## Requirements
 
-* SilverStripe 4.x\
-_(Should be working with SilverStripe 5.x - but untested. Therefore not officially supported.)_
+* SilverStripe 4.x and 5.x
 * PHP 8.1
 * meilisearch 1.3 - [self hosted](https://www.meilisearch.com/docs/learn/getting_started/installation)\
 _(due to missing supoprt for authorization keys.)_
@@ -38,7 +37,7 @@ Run the buit-in task [RebuildAllIndexesTask](src/Dev/Task/RebuildAllIndexesTask.
 
 Although not neccessary, it is suggested to run the task from CLI.
 
-e.g. `sake dev/task/meilisearch-rebuild-all-indexes`
+e.g. `sake dev/tasks/meilisearch-rebuild-all-indexes`
 
 ### Search
 

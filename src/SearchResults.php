@@ -39,7 +39,7 @@ class SearchResults extends ViewableData
     /**
      * @param Index $index
      */
-    public function __construct(protected readonly Index $index)
+    public function __construct(protected readonly Index $index, protected readonly string $q)
     {
         parent::__construct();
     }
@@ -52,6 +52,14 @@ class SearchResults extends ViewableData
     public function getIndexUniqueKey(): string
     {
         return $this->index->getUniqueKey();
+    }
+
+    /**
+     * @return string
+     */
+    public function getQ(): string
+    {
+        return $this->q;
     }
 
     /**
@@ -159,6 +167,7 @@ class SearchResults extends ViewableData
             $this->cachedList[$cacheKey] = $this->results;
         } else {
             ($list = PaginatedList::create($this->results, Controller::curr()->getRequest()))
+                ->setPageLength($perPage)
                 ->setPaginationGetVar($list->getPaginationGetVar() . '-' . $this->index->getUniqueKey());
 
             $this->cachedList[$cacheKey] = $list;

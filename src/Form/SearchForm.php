@@ -203,8 +203,7 @@ class SearchForm extends Form
     {
         $results = ArrayList::create();
 
-        $data = $this->getData();
-        $searchIn = $data['SearchIn'] ?? null;
+        $searchIn = ($data = $this->getData())['SearchIn'] ?? null;
 
         if (empty($q = trim($data['q'] ?? ''))) {
             return $results;

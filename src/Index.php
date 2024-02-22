@@ -114,12 +114,7 @@ abstract class Index
             static::throw_or_log(new \RuntimeException('MEILISEARCH_HOST_AND_PORT not defined.'));
         }
 
-        $masterkey = null;
-        if (Environment::getEnv('MEILISEARCH_MASTER_KEY')) {
-            $masterkey = trim(Environment::getEnv('MEILISEARCH_MASTER_KEY'));
-        }
-
-        static::$client = new Client($hostAndPort, $masterkey);
+        static::$client = new Client($hostAndPort, Environment::getEnv('MEILISEARCH_MASTER_KEY') ?: null);
 
         return static::$client;
     }
@@ -222,6 +217,15 @@ abstract class Index
             $indexName .= '_' . strtolower(Locale::getCurrentLocale()->Locale);
         }
 
+        if (
+            ($prefix = Environment::getEnv('MEILISEARCH_INDEXES_PREFIX')) !== false
+            && !empty($prefix = trim($prefix ?? ''))
+        ) {
+            $prefix = preg_replace('/[^a-z|A-Z|0-9|_|-]/', '_', $prefix);
+
+            $indexName = $prefix . '_' . $indexName;
+        }
+
         return $indexName;
     }
 
@@ -274,6 +278,7 @@ abstract class Index
         $settings = [
             'searchableAttributes' => Document::get_searchable_fields($sng::class),
             'filterableAttributes' => Document::get_filterable_fields($sng::class),
+            'sortableAttributes' => Document::get_sortable_fields($sng::class),
         ];
 
         static::get_client()->index($indexName)->updateSettings($settings);
@@ -410,14 +415,15 @@ abstract class Index
     }
 
     /**
-     * @param $q
+     * @param string $q
      * @param array|null $filter
      * @param int|null $limit
+     * @param array|null $sort
      * @return SearchResults
      * @throws NotFoundExceptionInterface
      * @throws Throwable
      */
-    public function search($q, ?array $filter = null, ?int $limit = null): SearchResults
+    public function search(string $q, ?array $filter = null, ?int $limit = null, ?array $sort = null): SearchResults
     {
         if ($limit === null || $limit <= 0) {
             $limit = 100;
@@ -432,11 +438,15 @@ abstract class Index
             $options['filter'] = $filter;
         }
 
+        if ($sort !== null) {
+            $options['sort'] = $sort;
+        }
+
         $meiliResults = static::get_client()->index($this->getIndexName())->search($q, $options);
 
         $estimatedTotalHits = $meiliResults->getEstimatedTotalHits();
 
-        $results = SearchResults::create($this);
+        $results = SearchResults::create($this, $q);
 
         if (count($hits = $meiliResults->getHits()) > 0) {
             $ids = array_map(fn (array $hit) => $hit['ID'], $hits);
