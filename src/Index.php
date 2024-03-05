@@ -305,7 +305,7 @@ abstract class Index
         $currentChunk = 0;
 
         // Keep looping until we run out of chunks
-        while ($chunk = $this->getDataList()->limit($chunkSize, $chunkSize * $currentChunk)->getIterator()) {
+        while ($chunk = $this->getDataList()->limit($chunkSize, $chunkSize * $currentChunk)) {
             // Loop over all the item in our chunk
             foreach ($chunk as $record) {
                 /** @var DataObject|FluentVersionedExtension|FluentExtension $record */
