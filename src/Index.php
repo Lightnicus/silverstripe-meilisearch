@@ -72,7 +72,7 @@ abstract class Index
      * @throws ReflectionException
      * @throws Throwable
      */
-    public static function for_class(string $class): ?self
+    public static function for_class(string $class): ?array
     {
         $return = [];
         foreach (ClassInfo::subclassesFor(Index::class, false) as $indexClass) {
