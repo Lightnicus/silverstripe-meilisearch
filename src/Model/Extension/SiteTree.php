@@ -27,9 +27,10 @@ class SiteTree extends SearchableVersioned
         if ($this->owner->ShowInSearch) {
             parent::onAfterPublish();
         } else {
-            Index::for_class($this->owner)->remove(
-                Document::create($this->owner)
-            );
+            $indices = Index::for_class($this->owner::class);
+            foreach ($indices as $index) {
+                $index->remove(Document::create($this->owner));
+            }
         }
     }
 
@@ -44,9 +45,10 @@ class SiteTree extends SearchableVersioned
         parent::onAfterWrite();
 
         if (!$this->owner->ShowInSearch) {
-            Index::for_class($this->owner)->remove(
-                Document::create($this->owner)
-            );
+            $indices = Index::for_class($this->owner::class);
+            foreach ($indices as $index) {
+                $index->remove(Document::create($this->owner));
+            }
         }
     }
 }

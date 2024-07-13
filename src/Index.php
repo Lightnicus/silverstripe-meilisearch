@@ -67,23 +67,24 @@ abstract class Index
 
     /**
      * @param string $class
-     * @return Index|null
+     * @return array|null
      * @throws NotFoundExceptionInterface
      * @throws ReflectionException
      * @throws Throwable
      */
     public static function for_class(string $class): ?self
     {
+        $return = [];
         foreach (ClassInfo::subclassesFor(Index::class, false) as $indexClass) {
             /** @var Index $index */
             $index = Injector::inst()->create($indexClass);
 
             if ($index->handles($class)) {
-                return $index;
+                $return[] = $index;
             }
         }
 
-        return null;
+        return count($return) > 0 ? $return : null;
     }
 
     /**

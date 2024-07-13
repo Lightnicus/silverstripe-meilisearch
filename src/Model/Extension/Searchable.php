@@ -25,9 +25,10 @@ class Searchable extends DataExtension
     {
         parent::onAfterWrite();
 
-        Index::for_class($this->owner::class)?->add(
-            Document::create($this->owner)
-        );
+        $indices = Index::for_class($this->owner::class);
+        foreach ($indices as $index) {
+            $index->add(Document::create($this->owner));
+        }
     }
 
     /**
@@ -39,9 +40,9 @@ class Searchable extends DataExtension
     public function onAfterDelete(): void
     {
         parent::onAfterDelete();
-
-        Index::for_class($this->owner::class)?->remove(
-            Document::create($this->owner)
-        );
+        $indices = Index::for_class($this->owner::class);
+        foreach ($indices as $index) {
+            $index->remove(Document::create($this->owner));
+        }
     }
 }
