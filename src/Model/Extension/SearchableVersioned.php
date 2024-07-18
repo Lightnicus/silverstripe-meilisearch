@@ -29,6 +29,14 @@ class SearchableVersioned extends DataExtension
         }
     }
 
+    public function onAfterPublishRecursive($object): void
+    {
+        $indices = Index::for_class($this->owner::class);
+        foreach ($indices as $index) {
+            $index->add(Document::create($this->owner));
+        }
+    }
+
     /**
      * @return void
      * @throws NotFoundExceptionInterface
