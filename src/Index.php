@@ -290,7 +290,7 @@ abstract class Index
             'sortableAttributes' => Document::get_sortable_fields($sng::class),
         ];
 
-		$settings = Document::addidional_settings($sng::class, $settings);
+		$settings = Document::additional_settings($sng::class, $settings);
 
 		static::get_client()->index($indexName)->updateSettings($settings);
 

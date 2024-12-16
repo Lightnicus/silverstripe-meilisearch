@@ -174,7 +174,7 @@ class Document
 	 * @param array $settings
 	 * @return array|null
 	 */
-	public static function addidional_settings(string $class, array $settings): ?array {
+	public static function additional_settings(string $class, array $settings): ?array {
 		// add more items if needed
 		foreach(['distinctAttribute'] as $key) {
 			$settings_field = [];
