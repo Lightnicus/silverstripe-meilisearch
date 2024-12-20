@@ -176,17 +176,17 @@ class Document
 	 */
 	public static function additional_settings(string $class, array $settings): ?array {
 		// add more items if needed
-		foreach(['distinctAttribute'] as $key) {
+		foreach(['distinctAttribute', 'faceting'] as $key) {
 			$settings_field = [];
 			$classes = [];
 			$fields = [];
 			foreach (ClassInfo::getValidSubClasses($class) as $subClass) {
 				$config = Config::inst()->get($subClass, 'meilisearch_'.$key) ?? null;
-				$fields = is_array($config) ? array_merge($fields, $config) : $config;
+				$fields = is_array($config) && is_array($fields) ? array_merge($fields, $config) : $config;
 				$classes[] = $subClass;
 			}
 
-			$fields = is_array($fields) ? array_values(array_unique($fields)) : $fields;
+			$fields = is_array($fields) ? array_unique($fields) : $fields;
 			if (empty($fields)) {
 				$fields = null;
 			}
