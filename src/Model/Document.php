@@ -176,7 +176,7 @@ class Document
 	 */
 	public static function additional_settings(string $class, array $settings): ?array {
 		// add more items if needed
-		foreach(['distinctAttribute', 'faceting'] as $key) {
+		foreach(['distinctAttribute', 'faceting', 'rankingRules'] as $key) {
 			$settings_field = [];
 			$classes = [];
 			$fields = [];
