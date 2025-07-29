@@ -8,7 +8,11 @@ use ReflectionException;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\PolyExecution\PolyOutput;
 use SilverStripe\Versioned\Versioned;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Throwable;
 
 /**
@@ -20,17 +24,17 @@ class RebuildAllIndexesTask extends BuildTask
     /**
      * @var string
      */
-    private static string $segment = 'meilisearch-rebuild-all-indexes';
+    protected static string $commandName = 'meilisearch-rebuild-all-indexes';
+    /**
+     * @var string
+     */
+    protected string $title = 'Rebuild all meilisearch indexes';
 
     /**
      * @var string
      */
-    protected $title = 'Rebuild all meilisearch indexes';
+    protected static string $description = 'Rebuild all meilisearch indexes';
 
-    /**
-     * @var string
-     */
-    protected $description = '';
 
     /**
      * @param $request
@@ -39,9 +43,9 @@ class RebuildAllIndexesTask extends BuildTask
      * @throws ReflectionException
      * @throws Throwable
      */
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
-        $stage = $request->getVar('stage');
+        $stage = $input->getOption('stage');
 
         Versioned::withVersionedMode(function () use ($stage) {
             if ($stage) {
@@ -55,5 +59,19 @@ class RebuildAllIndexesTask extends BuildTask
                 $index->rebuild();
             }
         });
+
+        return Command::SUCCESS; // Indicate success
+    }
+
+    public function getOptions(): array
+    {
+        return [
+            new InputOption(
+                'stage',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Stage to rebuild indexes for. Defaults to "Live".',
+            ),
+        ];
     }
 }

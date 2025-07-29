@@ -4,10 +4,10 @@ namespace BimTheBam\Meilisearch;
 
 use BimTheBam\Meilisearch\SearchResults\Result;
 use SilverStripe\Control\Controller;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\PaginatedList;
-use SilverStripe\ORM\SS_List;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\List\PaginatedList;
+use SilverStripe\Model\List\SS_List;
+use SilverStripe\Model\ModelData;
 
 /**
  * Class SearchResults
@@ -19,7 +19,7 @@ use SilverStripe\View\ViewableData;
  * @property int $Count
  * @property ArrayList|null $List
  */
-class SearchResults extends ViewableData
+class SearchResults extends ModelData
 {
     /**
      * @var ArrayList|null

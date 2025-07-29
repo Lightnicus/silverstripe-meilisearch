@@ -25,7 +25,6 @@ class SiteTree extends SearchableVersioned
     public function onAfterPublish(): void
     {
         if ($this->owner->ShowInSearch) {
-            parent::onAfterPublish();
         } else {
             $indices = Index::for_class($this->owner::class);
             foreach ($indices as $index) {
@@ -42,8 +41,6 @@ class SiteTree extends SearchableVersioned
      */
     public function onAfterWrite(): void
     {
-        parent::onAfterWrite();
-
         if (!$this->owner->ShowInSearch) {
             $indices = Index::for_class($this->owner::class);
             foreach ($indices as $index) {

@@ -6,14 +6,14 @@ use BimTheBam\Meilisearch\Index;
 use BimTheBam\Meilisearch\Model\Document;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use Throwable;
 
 /**
  * Class SearchableVersioned
  * @package BimTheBam\Meilisearch\Model\Extension
  */
-class SearchableVersioned extends DataExtension
+class SearchableVersioned extends Extension
 {
     /**
      * @return void

@@ -2,15 +2,15 @@
 
 namespace BimTheBam\Meilisearch\SearchResults;
 
+use SilverStripe\Model\ModelData;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\View\ViewableData;
 
 /**
  * Class Result
  * @package BimTheBam\Meilisearch\SearchResults
  * @property DataObject|null $Record
  */
-class Result extends ViewableData
+class Result extends ModelData
 {
     /**
      * @var bool

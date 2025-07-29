@@ -225,7 +225,8 @@ class Document
             }
 
             if (!is_object($fieldValue)) {
-                $fieldValue = Injector::inst()->create($this->record->castingHelper($field), $field)
+                $castingHelper = $this->record->castingHelper($field) ?? 'Text';
+                $fieldValue = Injector::inst()->create($castingHelper, $field)
                     ->setValue($fieldValue, $this->record);
             }
 
