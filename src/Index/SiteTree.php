@@ -6,6 +6,8 @@ use BimTheBam\Meilisearch\Index;
 use BimTheBam\Meilisearch\Model\CMS\SearchPage;
 use Psr\Container\NotFoundExceptionInterface;
 use SilverStripe\CMS\Model\RedirectorPage;
+use SilverStripe\CMS\Model\VirtualPage;
+use SilverStripe\ErrorPage\ErrorPage;
 use SilverStripe\ORM\DataList;
 use Throwable;
 
@@ -25,6 +27,8 @@ class SiteTree extends Index
      */
     private static array $excluded_classes = [
         RedirectorPage::class,
+        VirtualPage::class,
+        ErrorPage::class,
         SearchPage::class,
     ];
 
